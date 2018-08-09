@@ -24,7 +24,7 @@ void motorMove(int motorSelect, int steps, int motorDirection) {
   if(motorDirection >= 1) {
     // for loop for how many steps
     for(int j; j < steps; j++) {
-      //Case statements to cycle through phases of a single step in the motor
+      //Case statements to cycle through phases of a single step in the x motor
       switch (stepA) {
           case 0:
           digitalWrite(2, HIGH);
@@ -56,6 +56,41 @@ void motorMove(int motorSelect, int steps, int motorDirection) {
           digitalWrite(4, LOW);
           digitalWrite(5, HIGH);
           stepA = 0;
+          break;
+          }
+      delayMicroseconds(motorSpeed);  
+      //Case statements to cyle through phases on single step for y motor    
+      switch (stepB) {
+          case 0:
+          digitalWrite(6, HIGH);
+          digitalWrite(7, LOW);
+          digitalWrite(8, HIGH);
+          digitalWrite(9, LOW);
+          stepB ++;
+          break;
+
+          case 1:
+          digitalWrite(6, LOW);
+          digitalWrite(7, HIGH);
+          digitalWrite(8, HIGH);
+          digitalWrite(9, LOW);
+          stepB ++;
+          break;
+
+          case 2:
+          digitalWrite(6, LOW);
+          digitalWrite(7, HIGH);
+          digitalWrite(8, LOW);
+          digitalWrite(9, HIGH);
+          stepB ++;
+          break;
+
+          case 3:
+          digitalWrite(6, LOW);
+          digitalWrite(7, HIGH);
+          digitalWrite(8, LOW);
+          digitalWrite(9, HIGH);
+          stepB = 0;
           break;
           }
     }
@@ -68,37 +103,70 @@ void motorMove(int motorSelect, int steps, int motorDirection) {
           case 0:
           digitalWrite(2, HIGH);
           digitalWrite(3, LOW);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          stepA --;
+          digitalWrite(4, LOW);
+          digitalWrite(5, HIGH);
+          stepA ++;
           break;
           
           case 1:
           digitalWrite(2, LOW);
           digitalWrite(3, HIGH);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          stepA --;
+          digitalWrite(4, LOW);
+          digitalWrite(5, HIGH);
+          stepA ++;
           break;    
               
           case 2:
           digitalWrite(2, LOW);
           digitalWrite(3, HIGH);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          stepA --;
+          digitalWrite(4, HIGH);
+          digitalWrite(5, LOW);
+          stepA ++;
           break;  
                
           case 3:
           digitalWrite(2, HIGH);
           digitalWrite(3, LOW);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
+          digitalWrite(4, HIGH);
+          digitalWrite(5, LOW);
           stepA = 0;
           break;
           }
+      switch (stepB) {
+          case 0:
+          digitalWrite(6, HIGH);
+          digitalWrite(7, LOW);
+          digitalWrite(8, LOW);
+          digitalWrite(9, HIGH);
+          stepB ++;
+          break;
+
+          case 1:
+          digitalWrite(6, LOW);
+          digitalWrite(7, HIGH);
+          digitalWrite(8, LOW);
+          digitalWrite(9, HIGH);
+          stepB ++;
+          break;
+
+          case 2:
+          digitalWrite(6, LOW);
+          digitalWrite(7, HIGH);
+          digitalWrite(8, HIGH);
+          digitalWrite(9, LOW);
+          stepB ++;
+          break;
+
+          case 3:
+          digitalWrite(6, HIGH);
+          digitalWrite(7, LOW);
+          digitalWrite(8, HIGH);
+          digitalWrite(9, LOW);
+          stepB = 0;
+          break;
+          }
     }
-}
+  }
 }
 
 void setup() {
@@ -117,31 +185,5 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-delayMicroseconds(motorSpeed);
-
-
-        delayMicroseconds(motorSpeed);
-        digitalWrite(6, HIGH);
-        digitalWrite(7, LOW);
-        digitalWrite(8, HIGH);
-        digitalWrite(9, LOW);
-
-delayMicroseconds(motorSpeed);
-        digitalWrite(6, LOW);
-        digitalWrite(7, HIGH);
-        digitalWrite(8, HIGH);
-        digitalWrite(9, LOW);
-delayMicroseconds(motorSpeed);
-        digitalWrite(6, LOW);
-        digitalWrite(7, HIGH);
-        digitalWrite(8, LOW);
-        digitalWrite(9, HIGH);
-delayMicroseconds(motorSpeed);
-        digitalWrite(6, HIGH);
-        digitalWrite(7, LOW);
-        digitalWrite(8, LOW);
-        digitalWrite(9, HIGH);
-     
   
 }
