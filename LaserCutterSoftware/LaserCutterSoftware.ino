@@ -1,3 +1,5 @@
+
+////////////////////////////////////////////////////////////////////
 //Sets pins 2,3,4,5 for motor A
 int motorPinA1 = 2;
 int motorPinA2 = 3;
@@ -8,165 +10,120 @@ int motorPinB1 = 6;
 int motorPinB2 = 7;
 int motorPinB3 = 8;
 int motorPinB4 = 9;
-//Sets initial value of step count for both motors to 0
-int stepA, stepB = 0;
+////////////////////////////////////////////////////////////////////
+//Sets initial value of steps in each direction
+int stepY; int stepX;
+//Sets values of change in position
+int deltaX; int deltaY;
 //Sets the speed of the stepper motors
 int motorSpeed = 10000;
-//Initialises the motor to select, how many steps of the motor and the direction
-int motorSelect, steps, motorDirection;
 //Initialises the function to allow for the motor to move and its inputs
-void motorMove(int motorSelect, int steps, int motorDirection);
-int j;
+void movePos(int deltaX, int deltaY);
+////////////////////////////////////////////////////////////////////
 
 //Defines the function to move the motors
-void motorMove(int motorSelect, int steps, int motorDirection) {
+void movePos(int deltaX, int deltaY) {
   //Checks direction of motor movement
-  if(motorDirection >= 1) {
-    // for loop for how many steps
-    for(int j; j < steps; j++) {
-      //Case statements to cycle through phases of a single step in the x motor
-      switch (stepA) {
-          case 0:
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          stepA ++;
-          break;
-          
-          case 1:
-          digitalWrite(2, LOW);
-          digitalWrite(3, HIGH);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          stepA ++;
-          break;    
-              
-          case 2:
-          digitalWrite(2, LOW);
-          digitalWrite(3, HIGH);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          stepA ++;
-          break;  
-               
-          case 3:
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          stepA = 0;
-          break;
-          }
-      delayMicroseconds(motorSpeed);  
-      //Case statements to cyle through phases on single step for y motor    
-      switch (stepB) {
-          case 0:
-          digitalWrite(6, HIGH);
-          digitalWrite(7, LOW);
-          digitalWrite(8, HIGH);
-          digitalWrite(9, LOW);
-          stepB ++;
-          break;
+  //if(deltaX>0) {int dirX = 1;} else {int dirX = 0;}
+  for (int j; j < deltaY; j++) {
+    //Case statements to cycle through phases of a single step in the y motor
+    switch (stepY) {
+        //Setting default in case of unknown value
+        default:
+            stepY = 0;
+            digitalWrite(2, HIGH);
+            digitalWrite(3, LOW);
+            digitalWrite(4, HIGH);
+            digitalWrite(5, LOW);
+            stepY++;
+            break;
+         
+        case 0:
+            digitalWrite(2, HIGH);
+            digitalWrite(3, LOW);
+            digitalWrite(4, HIGH);
+            digitalWrite(5, LOW);
+            stepY++;
+            break;
 
-          case 1:
-          digitalWrite(6, LOW);
-          digitalWrite(7, HIGH);
-          digitalWrite(8, HIGH);
-          digitalWrite(9, LOW);
-          stepB ++;
-          break;
+        case 1:
+            digitalWrite(2, LOW);
+            digitalWrite(3, HIGH);
+            digitalWrite(4, HIGH);
+            digitalWrite(5, LOW);
+            stepY++;
+            break;
+            
+        case 2:
+            digitalWrite(2, LOW);
+            digitalWrite(3, HIGH);
+            digitalWrite(4, LOW);
+            digitalWrite(5, HIGH);
+            stepY++;
+            break;
 
-          case 2:
-          digitalWrite(6, LOW);
-          digitalWrite(7, HIGH);
-          digitalWrite(8, LOW);
-          digitalWrite(9, HIGH);
-          stepB ++;
-          break;
-
-          case 3:
-          digitalWrite(6, LOW);
-          digitalWrite(7, HIGH);
-          digitalWrite(8, LOW);
-          digitalWrite(9, HIGH);
-          stepB = 0;
-          break;
-          }
+        case 3:
+            digitalWrite(2, HIGH);
+            digitalWrite(3, LOW);
+            digitalWrite(4, LOW);
+            digitalWrite(5, HIGH);
+            stepY = 0;
+            break;
     }
+    //Delays for smoother movement
+    delayMicroseconds(motorSpeed);
   }
-  else if(motorDirection <= -1) {
-    // for loop for how many steps
-    for(int j; j < steps; j++) {
-      //Case statements to cycle through phases of a single step in the motor
-      switch (stepA) {
-          case 0:
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          stepA ++;
-          break;
-          
-          case 1:
-          digitalWrite(2, LOW);
-          digitalWrite(3, HIGH);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          stepA ++;
-          break;    
-              
-          case 2:
-          digitalWrite(2, LOW);
-          digitalWrite(3, HIGH);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          stepA ++;
-          break;  
-               
-          case 3:
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          stepA = 0;
-          break;
-          }
-      switch (stepB) {
-          case 0:
-          digitalWrite(6, HIGH);
-          digitalWrite(7, LOW);
-          digitalWrite(8, LOW);
-          digitalWrite(9, HIGH);
-          stepB ++;
-          break;
 
-          case 1:
-          digitalWrite(6, LOW);
-          digitalWrite(7, HIGH);
-          digitalWrite(8, LOW);
-          digitalWrite(9, HIGH);
-          stepB ++;
-          break;
+  for (int j; j < deltaX; j++) {
+    //Case statements for one phase of movement for the y motor
+    switch (stepX) {
+        //Setting default in case of unknown value
+        default:
+            stepX = 0;
+            digitalWrite(6, HIGH);
+            digitalWrite(7, LOW);
+            digitalWrite(8, HIGH);
+            digitalWrite(9, LOW);
+            stepX++;
+            break;
+            
+        case 0:
+            digitalWrite(6, HIGH);
+            digitalWrite(7, LOW);
+            digitalWrite(8, HIGH);
+            digitalWrite(9, LOW);
+            stepX++;
+            break;
 
-          case 2:
-          digitalWrite(6, LOW);
-          digitalWrite(7, HIGH);
-          digitalWrite(8, HIGH);
-          digitalWrite(9, LOW);
-          stepB ++;
-          break;
+        case 1:
+            digitalWrite(6, LOW);
+            digitalWrite(7, HIGH);
+            digitalWrite(8, HIGH);
+            digitalWrite(9, LOW);
+            stepX++;
+            break;
 
-          case 3:
-          digitalWrite(6, HIGH);
-          digitalWrite(7, LOW);
-          digitalWrite(8, HIGH);
-          digitalWrite(9, LOW);
-          stepB = 0;
-          break;
-          }
+        case 2:
+            digitalWrite(6, LOW);
+            digitalWrite(7, HIGH);
+            digitalWrite(8, LOW);
+            digitalWrite(9, HIGH);
+            stepX++;
+            break;
+
+        case 3:
+            digitalWrite(6, HIGH);
+            digitalWrite(7, LOW);
+            digitalWrite(8, LOW);
+            digitalWrite(9, HIGH);
+            stepX = 0;
+            break;
     }
+    delayMicroseconds(motorSpeed);
+    //Delays for smoother movement
   }
+
+  
 }
 
 void setup() {
@@ -185,5 +142,5 @@ void setup() {
 }
 
 void loop() {
-  
+  movePos(100, 500);
 }
