@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////
-//Sets pins 2,3,4,5 for motor A
+//Sets direction for x and y
 int dirX;
 int dirY;
 //Sets pin for laser
@@ -16,12 +16,24 @@ int motorSpeed = 100000;
 
 //Initialises the brightness of the laser
 double laserBrightness;
+
+//Initialises the position of the x and y axis
+float posX; float posY;
+
+//Initialises gradient
+float m;
+float posMapX;
+float posMapY;
+float gradientY;
 ////////////////////////////////////////////////////////////////////
 //Initialises the function to allow for the motor to move and its inputs
 void movePos(int deltaX, int deltaY);
 
 //Initialises the function to operate the laser
 void laserEngrave(double laserBrightness);
+
+//Initialises the function to move to a specific position
+void moveCoord(float posX, float posY);
 ////////////////////////////////////////////////////////////////////
 
 
@@ -42,6 +54,6 @@ void setup() {
 }
 
 void loop() {
- laserEngrave(100);
- movePos(1,1);
+ moveCoord(17,46);
+ while(1) {}
 }
