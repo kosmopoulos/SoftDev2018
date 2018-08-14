@@ -5,60 +5,64 @@ void moveCoord(float posX, float posY) {
   float posMapX = map(posX, 0, 61, 0, 3060);
   float posMapY = map(posY, 0, 51, 0, 2487);
   Serial.println(m,4);
+  //Creates value to move the y for the gradient
   gradientY = posMapY*m;
   //Checks direction of motor movement
   if(posX>=0) {dirX = 0;} else {dirX = 1;}
   if(posY>=0) {dirY = 0;} else {dirY = 1;}
-  
-  for (int j = 0; j < abs(gradientY); j++) {
-  //Case statements to cycle through phases of a single step in the y motor 
-  switch (stepY) {
-      //Setting default in case of unknown value
-      default:
-          stepY = 0;
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          if(dirY){stepY++;} else {stepY = 3;}
-          break;
-       
-      case 0:
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          if(dirY){stepY++;} else {stepY = 3;}
-          break;
 
-      case 1:
-          digitalWrite(2, LOW);
-          digitalWrite(3, HIGH);
-          digitalWrite(4, HIGH);
-          digitalWrite(5, LOW);
-          if(dirY){stepY++;} else {stepY = 0;}
-          break;
-          
-      case 2:
-          digitalWrite(2, LOW);
-          digitalWrite(3, HIGH);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          if(dirY){stepY++;} else {stepY = 1;}
-          break;
-
-      case 3:
-          digitalWrite(2, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(4, LOW);
-          digitalWrite(5, HIGH);
-          if(dirY){stepY++;} else {stepY = 2;}
-          break;
-  }
+  for (posX; posX < gradientY; posX++) {
+    for (int j = 0; j < abs(posMapY); j++) {
+      //Case statements to cycle through phases of a single step in the y motor 
+      switch (stepY) {
+          //Setting default in case of unknown value
+          default:
+              stepY = 0;
+              digitalWrite(2, HIGH);
+              digitalWrite(3, LOW);
+              digitalWrite(4, HIGH);
+              digitalWrite(5, LOW);
+              if(dirY){stepY++;} else {stepY = 3;}
+              break;
+           
+          case 0:
+              digitalWrite(2, HIGH);
+              digitalWrite(3, LOW);
+              digitalWrite(4, HIGH);
+              digitalWrite(5, LOW);
+              if(dirY){stepY++;} else {stepY = 3;}
+              break;
+    
+          case 1:
+              digitalWrite(2, LOW);
+              digitalWrite(3, HIGH);
+              digitalWrite(4, HIGH);
+              digitalWrite(5, LOW);
+              if(dirY){stepY++;} else {stepY = 0;}
+              break;
+              
+          case 2:
+              digitalWrite(2, LOW);
+              digitalWrite(3, HIGH);
+              digitalWrite(4, LOW);
+              digitalWrite(5, HIGH);
+              if(dirY){stepY++;} else {stepY = 1;}
+              break;
+    
+          case 3:
+              digitalWrite(2, HIGH);
+              digitalWrite(3, LOW);
+              digitalWrite(4, LOW);
+              digitalWrite(5, HIGH);
+              if(dirY){stepY++;} else {stepY = 2;}
+              break;
+      }
   //Delays for smoother movement
   delayMicroseconds(motorSpeed);
-  }
+    }
 
+  }
+  
   for (int j = 0; j < abs(posMapX); j++) {
     //Case statements for one phase of movement for the y motor
     switch (stepX) {
