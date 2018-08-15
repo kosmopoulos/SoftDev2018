@@ -2,6 +2,8 @@
 //Sets direction for x and y
 int dirX;
 int dirY;
+//error checking
+int countX, countY = 0;
 //Sets pin for laser
 int laserPin = 11;
 ////////////////////////////////////////////////////////////////////
@@ -12,7 +14,7 @@ int stepY; int stepX;
 int deltaX; int deltaY;
 
 //Sets the speed of the stepper motors
-int motorSpeed = 100000;
+int motorSpeed = 15000;
 
 //Initialises the brightness of the laser
 double laserBrightness;
@@ -22,9 +24,11 @@ float posX; float posY;
 
 //Initialises gradient
 float m;
+float gradientY;
+//Initialises the mapping value for x and y to convert from steps to cm
 float posMapX;
 float posMapY;
-float gradientY;
+
 ////////////////////////////////////////////////////////////////////
 //Initialises the function to allow for the motor to move and its inputs
 void movePos(int deltaX, int deltaY);
@@ -54,6 +58,8 @@ void setup() {
 }
 
 void loop() {
- moveCoord(17,46);
+ laserEngrave(100);
+ moveCoord(20,1);
+
  while(1) {}
 }

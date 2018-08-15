@@ -1,15 +1,15 @@
 //Defines the function to move the motors
 void movePos(int deltaX, int deltaY) {
   //Prints the change in position
-  Serial.println(deltaX);
-  Serial.println(deltaY);
+  //Serial.println(deltaX);
+  //Serial.println(deltaY);
   //Checks direction of motor movement
   if(deltaX>=0) {dirX = 0;} else {dirX = 1;}
   if(deltaY>=0) {dirY = 0;} else {dirY = 1;}
   //Prints the directions
-  Serial.println(dirX);
-  Serial.println(dirY);
-  for (int j = 0; j < abs(deltaY); j++) {
+  //Serial.println(dirX);
+  //Serial.println(dirY);
+  for (int jy = 0; jy < abs(deltaY); jy++) {
     //Case statements to cycle through phases of a single step in the y motor 
     switch (stepY) {
         //Setting default in case of unknown value
@@ -55,10 +55,11 @@ void movePos(int deltaX, int deltaY) {
             break;
     }
     //Delays for smoother movement
+    countY++;
     delayMicroseconds(motorSpeed);
   }
 
-  for (int j = 0; j < abs(deltaX); j++) {
+  for (int jx = 0; jx < abs(deltaX); jx++) {
     //Case statements for one phase of movement for the y motor
     switch (stepX) {
         //Setting default in case of unknown value
@@ -105,6 +106,7 @@ void movePos(int deltaX, int deltaY) {
     }
     //Delays for smoother movement
     delayMicroseconds(motorSpeed);
+    countX++;
   }
 
   

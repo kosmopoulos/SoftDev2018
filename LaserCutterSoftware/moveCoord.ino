@@ -1,115 +1,64 @@
 void moveCoord(float posX, float posY) {
-  //Calculates gradient
-  m = posY/posX;
-  //Maps out actual length to steps
+  //Maps out actual length to steps by stretching them according to mapping calculation
   float posMapX = map(posX, 0, 61, 0, 3060);
   float posMapY = map(posY, 0, 51, 0, 2487);
+  //Calculates gradient and rounds it up if decimal value
+  m = posMapY/posMapX;
+  int mCeil = ceil(m);
+  //Logs Mapped values for x and y
+  Serial.print("posMapX:  ");
+  Serial.println(posMapX,4);
+  Serial.print("posMapY:  ");
+  Serial.println(posMapY,4);
+  //Logs gradient and rounded value
+  Serial.print("the gradient is:  ");
   Serial.println(m,4);
-  //Creates value to move the y for the gradient
-  gradientY = posMapY*m;
-  //Checks direction of motor movement
-  if(posX>=0) {dirX = 0;} else {dirX = 1;}
-  if(posY>=0) {dirY = 0;} else {dirY = 1;}
-
-  for (posX; posX < gradientY; posX++) {
-    for (int j = 0; j < abs(posMapY); j++) {
-      //Case statements to cycle through phases of a single step in the y motor 
-      switch (stepY) {
-          //Setting default in case of unknown value
-          default:
-              stepY = 0;
-              digitalWrite(2, HIGH);
-              digitalWrite(3, LOW);
-              digitalWrite(4, HIGH);
-              digitalWrite(5, LOW);
-              if(dirY){stepY++;} else {stepY = 3;}
-              break;
-           
-          case 0:
-              digitalWrite(2, HIGH);
-              digitalWrite(3, LOW);
-              digitalWrite(4, HIGH);
-              digitalWrite(5, LOW);
-              if(dirY){stepY++;} else {stepY = 3;}
-              break;
-    
-          case 1:
-              digitalWrite(2, LOW);
-              digitalWrite(3, HIGH);
-              digitalWrite(4, HIGH);
-              digitalWrite(5, LOW);
-              if(dirY){stepY++;} else {stepY = 0;}
-              break;
-              
-          case 2:
-              digitalWrite(2, LOW);
-              digitalWrite(3, HIGH);
-              digitalWrite(4, LOW);
-              digitalWrite(5, HIGH);
-              if(dirY){stepY++;} else {stepY = 1;}
-              break;
-    
-          case 3:
-              digitalWrite(2, HIGH);
-              digitalWrite(3, LOW);
-              digitalWrite(4, LOW);
-              digitalWrite(5, HIGH);
-              if(dirY){stepY++;} else {stepY = 2;}
-              break;
-      }
-  //Delays for smoother movement
-  delayMicroseconds(motorSpeed);
-    }
-
-  }
+  Serial.print("rounded up m:  ");
+  Serial.println(mCeil);
   
-  for (int j = 0; j < abs(posMapX); j++) {
-    //Case statements for one phase of movement for the y motor
-    switch (stepX) {
-        //Setting default in case of unknown value
-        default:
-            stepX = 0;
-            digitalWrite(6, HIGH);
-            digitalWrite(7, LOW);
-            digitalWrite(8, HIGH);
-            digitalWrite(9, LOW);
-            if(dirX){stepX++;} else {stepX = 3;}
-            break;
-            
-        case 0:
-            digitalWrite(6, HIGH);
-            digitalWrite(7, LOW);
-            digitalWrite(8, HIGH);
-            digitalWrite(9, LOW);
-            if(dirX){stepX++;} else {stepX = 3;}
-            break;
 
-        case 1:
-            digitalWrite(6, LOW);
-            digitalWrite(7, HIGH);
-            digitalWrite(8, HIGH);
-            digitalWrite(9, LOW);
-            if(dirX){stepX++;} else {stepX = 0;}
-            break;
-
-        case 2:
-            digitalWrite(6, LOW);
-            digitalWrite(7, HIGH);
-            digitalWrite(8, LOW);
-            digitalWrite(9, HIGH);
-            if(dirX){stepX++;} else {stepX = 1;}
-            break;
-
-        case 3:
-            digitalWrite(6, HIGH);
-            digitalWrite(7, LOW);
-            digitalWrite(8, LOW);
-            digitalWrite(9, HIGH);
-            if(dirX){stepX++;} else {stepX = 2;}
-            break;
-    }
-    //Delays for smoother movement
-    delayMicroseconds(motorSpeed);
+  if(posX < posY) {
+    //Logs amount of steps lost in given direction
+    Serial.println(posMapX/(mCeil*posMapX-m*posMapX));
+    //Creates a counter used for step compensation
+    int internalCountX = 0;
+      //Loop to move to position
+      while (countX < posMapX) {
+        movePos(1,mCeil);
+        internalCountX++;
+        //When the count is equal to the lost steps, move in order to compensate for the loss
+        if(internalCountX == posMapX/(mCeil*posMapX-m*posMapX)) {
+          movePos(1,0);
+          internalCountX = 0;
+        } 
+    
+      } 
+    if(countY < posMapY){movePos(0,(posMapY-countY));}
+      Serial.println(countX);
+      Serial.println(countY);
+    
   }
+
+  else if(posY < posX) {
+    //Logs amount of steps lost in given direction
+    Serial.println(posMapY/(mCeil*posMapY-m*posMapY));
+    //Creates a counter used for step compensation
+    int internalCountY = 0;
+      //Loop to move to position
+      while (countY < posMapY) {
+        movePos(mCeil,1);
+        internalCountY++;
+        //When the count is equal to the lost steps, move in order to compensate for the loss
+        if(internalCountY == posMapY/(mCeil*posMapY-m*posMapY)) {
+          movePos(0,1);
+          internalCountY = 0;
+        } 
+    
+      } 
+    if(countX < posMapX){movePos(0,(posMapX-countX));}
+      Serial.println(countX);
+      Serial.println(countY);
+  }
+   
 }
 
