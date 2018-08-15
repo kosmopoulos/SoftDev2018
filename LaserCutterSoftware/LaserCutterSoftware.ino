@@ -59,7 +59,7 @@ void setup() {
 
 void loop() {
  laserEngrave(100);
- moveCoord(20,1);
+ moveCoord(20,5);
 
  while(1) {}
 }
