@@ -14,7 +14,9 @@ int stepY; int stepX;
 int deltaX; int deltaY;
 
 //Sets the speed of the stepper motors
-int motorSpeed = 15000;
+//int motorSpeed = 15000;
+int motorSpeed = 100000;
+
 
 //Initialises the brightness of the laser
 double laserBrightness;
@@ -58,8 +60,9 @@ void setup() {
 }
 
 void loop() {
- laserEngrave(100);
- moveCoord(20,5);
+ laserEngrave(40);
+ moveCoord(20,10);
+
 
  while(1) {}
 }
