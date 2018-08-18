@@ -38,6 +38,8 @@ void movePos(int deltaX, int deltaY);
 //Initialises the function to operate the laser
 void laserEngrave(double laserBrightness);
 
+//Initialises function to turn laser off
+void laserOff();
 //Initialises the function to move to a specific position
 void moveCoord(float posX, float posY);
 ////////////////////////////////////////////////////////////////////
@@ -60,9 +62,10 @@ void setup() {
 }
 
 void loop() {
- laserEngrave(40);
- moveCoord(20,10);
-
-
+ laserEngrave(100);
+ moveCoord(-10,10);
+ moveCoord(10,-10);
+ moveCoord(10,0);
+ laserOff();
  while(1) {}
 }

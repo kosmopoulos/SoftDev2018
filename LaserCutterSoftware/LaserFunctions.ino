@@ -5,3 +5,6 @@ void laserEngrave(double laserBrightness) {
   analogWrite(laserPin, laserBrightness);
 }
 
+void laserOff() {
+  analogWrite(laserPin, 0);
+}
