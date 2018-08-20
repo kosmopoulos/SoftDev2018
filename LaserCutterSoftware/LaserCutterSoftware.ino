@@ -2,7 +2,7 @@
 //Sets direction for x and y
 int dirX;
 int dirY;
-//error checking
+//error/steps lost checking
 int countX, countY = 0;
 //Sets pin for laser
 int laserPin = 11;
@@ -42,6 +42,9 @@ void laserEngrave(double laserBrightness);
 void laserOff();
 //Initialises the function to move to a specific position
 void moveCoord(float posX, float posY);
+
+//Initialises the funtion which returns the laser pivot to the start position
+void returnStart();
 ////////////////////////////////////////////////////////////////////
 
 

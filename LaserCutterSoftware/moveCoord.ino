@@ -186,8 +186,7 @@ void moveCoord(float posX, float posY) {
       if(countY < posMapY){movePos(0,(absY-countY));}
         Serial.println(countX);
         Serial.println(countY);      
-    }
-   
+    }  
   }
   
   //if only y is positive
@@ -252,8 +251,6 @@ void moveCoord(float posX, float posY) {
   }
   
 ///////////////////////////////////////////
-  
-   
    
   //if x is zero and y is not zero
   else if (!posMapX &&posMapY){
