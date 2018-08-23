@@ -17,7 +17,6 @@ int deltaX; int deltaY;
 //int motorSpeed = 15000;
 int motorSpeed = 100000;
 
-
 //Initialises the brightness of the laser
 double laserBrightness;
 
