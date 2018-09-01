@@ -1,4 +1,7 @@
 void moveCoord(float posX, float posY) {
+  Serial.println("///////////////NEW COORD MOVEMENT////////////////");
+   countX, countY = 0;
+  
   //Maps out actual length to steps by stretching them according to mapping calculation
   float posMapX = map(posX, 0, 61, 0, 3175);
   float posMapY = map(posY, 0, 51, 0, 2500);
@@ -13,6 +16,7 @@ void moveCoord(float posX, float posY) {
 ///////////////////////////////////////////
   //if both are greater than zero
   if (posMapX > 0 && posMapY > 0){
+    Serial.println("both are greater than zero");
     if (posMapX > posMapY) {
         //run code for when both positive and x is greater than y
         Serial.println("x was greater than y");
@@ -20,7 +24,9 @@ void moveCoord(float posX, float posY) {
         //Logs gradient and rounded value
         Serial.print("the gradient is:  ");
         Serial.println(m,4);
+      
         int mCeil = ceil(m);
+        if(abs(m) ==1) {mCeil = m;}
         Serial.print("rounded up m:  ");
         Serial.println(mCeil);
         //Logs amount of steps lost in given direction
@@ -46,6 +52,7 @@ void moveCoord(float posX, float posY) {
       m = posMapY/posMapX;
       Serial.println(m,4);
       int mCeil = ceil(m);
+      if(abs(m) ==1) {mCeil = m;}
       Serial.print("rounded up m:  ");
       Serial.println(mCeil);
       //Logs amount of steps lost in given direction
@@ -69,7 +76,8 @@ void moveCoord(float posX, float posY) {
   }
   
   //if both are less than zero
-  if (posMapX < 0 && posMapY < 0){
+  else if (posMapX < 0 && posMapY < 0){
+    Serial.println("both are less than zero");
     int absY = abs(posMapY);
     int absX = abs(posMapX);
     if (abs(posMapX) > abs(posMapY)) {
@@ -81,9 +89,11 @@ void moveCoord(float posX, float posY) {
         Serial.print("the gradient is:  ");
         Serial.println(m,4);
         int mCeil = ceil(m);
+        if(abs(m) ==1) {mCeil = m;}
         Serial.print("rounded up m:  ");
         Serial.println(mCeil);
         //Logs amount of steps lost in given direction
+        Serial.println("sdfsfsdf");
         Serial.println(absY/(mCeil*absY-m*absY));
         //Creates a counter used for step compensation
         int internalCountY = 0;
@@ -92,14 +102,20 @@ void moveCoord(float posX, float posY) {
           movePos(-mCeil,-1);
           internalCountY++;
           //When the count is equal to the lost steps, move in order to compensate for the loss
-          if(internalCountY == absY/(mCeil*absY-m*absY)) {
-            movePos(0,-1);
-            internalCountY = 0;
-          }       
+          if(absY/(mCeil*absY-m*absY)==0){}
+          else{
+           movePos(0,-1);
+            internalCountY = 0;}
+//          if(internalCountY == absY/(mCeil*absY-m*absY)) {
+//           
+//          }       
         } 
         if(countX < posMapX){movePos((absX-countX),0);}
+        
+          Serial.print("final count X is:");
           Serial.println(countX);
-          Serial.println(countY);      
+          Serial.print("final count Y is:");
+          Serial.println(countY);
     }
     else {
       // run code for when both are negative but mag y is greater than mag x
@@ -107,6 +123,7 @@ void moveCoord(float posX, float posY) {
       m = absY/absX;
       Serial.println(m,4);
       int mCeil = ceil(m);
+      if(abs(m) ==1) {mCeil = m;}
       Serial.print("rounded up m:  ");
       Serial.println(mCeil);
       //Logs amount of steps lost in given direction
@@ -131,6 +148,7 @@ void moveCoord(float posX, float posY) {
   
   //if only x is positive
   else if (posMapX > 0 && posMapY < 0){
+    Serial.println("only x was positive");
     int absY = abs(posMapY);
     int absX = abs(posMapX);
       // run code for when only x is positive and mag is greater than y
@@ -139,8 +157,9 @@ void moveCoord(float posX, float posY) {
         m = absX/absY;
         //Logs gradient and rounded value
         Serial.print("the gradient is:  ");
-        Serial.println(m,4);
+        Serial.println(m);
         int mCeil = ceil(m);
+        if(abs(m) ==1) {mCeil = m;}
         Serial.print("rounded up m:  ");
         Serial.println(mCeil);
         //Logs amount of steps lost in given direction
@@ -167,6 +186,7 @@ void moveCoord(float posX, float posY) {
       m = absY/absX;
       Serial.println(m,4);
       int mCeil = ceil(m);
+      if(abs(m) ==1) {mCeil = m;}
       Serial.print("rounded up m:  ");
       Serial.println(mCeil);
       //Logs amount of steps lost in given direction
@@ -191,6 +211,7 @@ void moveCoord(float posX, float posY) {
   
   //if only y is positive
   else if (posMapX < 0 && posMapY > 0){
+    Serial.println("only y is positive");
     int absY = abs(posMapY);
     int absX = abs(posMapX);
     if (abs(posMapX) > abs(posMapY)) {
@@ -201,6 +222,7 @@ void moveCoord(float posX, float posY) {
         Serial.print("the gradient is:  ");
         Serial.println(m,4);
         int mCeil = ceil(m);
+        if(abs(m) ==1) {mCeil = m;}
         Serial.print("rounded up m:  ");
         Serial.println(mCeil);
         //Logs amount of steps lost in given direction
@@ -227,6 +249,7 @@ void moveCoord(float posX, float posY) {
       m = absY/absX;
       Serial.println(m,4);
       int mCeil = ceil(m);
+      if(abs(m) ==1) {mCeil = m;}
       Serial.print("rounded up m:  ");
       Serial.println(mCeil);
       //Logs amount of steps lost in given direction
@@ -254,28 +277,31 @@ void moveCoord(float posX, float posY) {
    
   //if x is zero and y is not zero
   else if (!posMapX &&posMapY){
+    Serial.println("x was zero and y was not zero");
     if(posMapY > 0) {
-      while(countY < posMapY) {
-        movePos(0,1);
-      }
+      
+        movePos(0,posMapY);
+      
     }
     else if (posMapY < 0) {
-      while(countY < abs(posMapY)) {
-        movePos(0,-1);
-      }
+      
+        movePos(0,posMapY);
+      
     }
   }
   //if x is not zero and y is zero
   else if (posMapX &&!posMapY){
+    Serial.println("y was zero and x was not zero");
+
     if(posMapX > 0) {
-      while(countX < posMapX) {
-        movePos(1,0);
-      }
+      
+        movePos(posMapX,0);
+      
     }
     else if (posMapX < 0) {
-      while(countX < abs(posMapX)) {
-        movePos(-1,0);
-      }
+      
+        movePos(posMapX,0);
+      
     }
   }
   
