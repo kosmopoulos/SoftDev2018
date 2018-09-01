@@ -3,8 +3,8 @@ void moveCoord(float posX, float posY) {
    countX, countY = 0;
   
   //Maps out actual length to steps by stretching them according to mapping calculation
-  float posMapX = map(posX, 0, 61, 0, 3175);
-  float posMapY = map(posY, 0, 51, 0, 2500);
+  float posMapX = map(posX, 0, 200, 0, 3175);
+  float posMapY = map(posY, 0, 200, 0, 2500);
   //Calculates gradient and rounds it up if decimal value
 
   //Logs Mapped values for x and y
