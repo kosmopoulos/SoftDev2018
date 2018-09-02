@@ -106,9 +106,9 @@ void moveCoord(float posX, float posY) {
           else{
            movePos(0,-1);
             internalCountY = 0;}
-//          if(internalCountY == absY/(mCeil*absY-m*absY)) {
-//           
-//          }       
+          if(internalCountY == absY/(mCeil*absY-m*absY)) {
+           
+          }       
         } 
         if(countX < posMapX){movePos((absX-countX),0);}
         
@@ -306,6 +306,6 @@ void moveCoord(float posX, float posY) {
   }
   
   //if they are both zero
-  else if(!posMapX && !posMapY) {Serial.println("you done fucked up aaron, both inputs were zero. dickhead");}
+  else if(!posMapX && !posMapY) {Serial.println("both inputs were wrong, check that you have entered a number");}
 }
 

@@ -1,14 +1,17 @@
 ////////////////////////////////////////////////////////////////////
 #include <EEPROM.h>
+int savedAddress;
 
-int ledPin =  13;      // the number of the LED pin
+//Initiates laser pin
+int ledPin =  13;
+//Joystick variables for each direction
 int buttonLeft, buttonRight, buttonUp, buttonDown = 0;
-// variables will change:
-int buttonState = 0;         // variable for reading the pushbutton status
+//Joystick variables used to set the initial state as off
+int buttonState = 0;
 int buttonState2 = 0;  
 int buttonState3 = 0;  
 int buttonState4 = 0;  
-int savedAddress;
+
 
 int incomingSerial = 0;
 int proceed = 0;
@@ -130,15 +133,16 @@ switch(incomingSerial)
 }
 proceed = 0;
 //////////////////////////////////////////////////////////////////////Joystick movement
-Serial.println("okay, enter what direction you want to move it");
+Serial.println("Joystick mode, use the joystick to control the laser");
 //Checks if the selected option was joystick movement
 if (menuItem == 3){
   while(proceed == 0) {
-    //Reads
+    //Reads the input of the joystick for each direction
     buttonLeft = digitalRead(A0);
     buttonRight = digitalRead(A1);
     buttonUp = digitalRead(A2);
     buttonDown = digitalRead(A3);
+    //Logs the inputs of the joystick to the serial monitor, 0 for no signal and 1 for signal
     Serial.print(buttonLeft);
     Serial.print("     ");
     Serial.print(buttonRight);
@@ -146,10 +150,15 @@ if (menuItem == 3){
     Serial.print(buttonUp);
     Serial.print("     ");
     Serial.println(buttonDown);
+    //Checks to see if there is an input, and then moves laser in according direction
     if(buttonRight) {movePos(100,0);}
     if(buttonLeft) {movePos(-100,0);}
     if(buttonUp) {movePos(0,100);}
     if(buttonDown) {movePos(0,-100);}
+    if(buttonUp && buttonRight) {movePos(100,100);}
+    if(buttonUp && buttonLeft) {movePos(-100,100);}
+    if(buttonDown && buttonRight) {movePos(100,-100);}
+    if(buttonDown && buttonLeft) {movePos(-100,-100);}
   }
 }
 /////////////////////////////////////////////////////EEPROM saving and reading
@@ -165,11 +174,15 @@ if (menuItem == 1){
     Serial.println("Welcome to demo mode! The system will demo the laser engraving ability");
     Serial.println("Press x to go back");
     delay(100);
-    moveCoord(10,0);
-    moveCoord(0,10);
-    moveCoord(-10,-10);
-    moveCoord(-6,-3);
-    moveCoord(10,20);    
+    //Square demo
+    moveCoord(20,0);
+    moveCoord(0,20);
+    moveCoord(-20,0);
+    moveCoord(0,-20);
+    //Triangle demo
+    moveCoord(26,0);
+    moveCoord(-13,26);
+    moveCoord(-13,-26); 
   }
 
 }
