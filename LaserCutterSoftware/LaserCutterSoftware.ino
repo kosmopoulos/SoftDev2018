@@ -1,11 +1,8 @@
 ////////////////////////////////////////////////////////////////////
 #include <EEPROM.h>
 
-int buttonPin1 = 0;     // the number of the pushbutton pin
- int ledPin =  13;      // the number of the LED pin
-int buttonPin2 = 1; 
-int buttonPin3 = 2; 
-int buttonPin4 = 3; 
+int ledPin =  13;      // the number of the LED pin
+int buttonLeft, buttonRight, buttonUp, buttonDown = 0;
 // variables will change:
 int buttonState = 0;         // variable for reading the pushbutton status
 int buttonState2 = 0;  
@@ -68,12 +65,12 @@ void saveCoord();
 
 
 void setup() {
-   pinMode(ledPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
   // initialize the pushbutton pin as an input:
-  pinMode(buttonPin1, INPUT);
-    pinMode(buttonPin2, INPUT);
-      pinMode(buttonPin3, INPUT);
-        pinMode(buttonPin4, INPUT);
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
   //Sets the pins for motor A to send output signals
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -88,33 +85,10 @@ void setup() {
   //Sets the laser pin as an output
   //pinMode(laserPin, OUTPUT);
   Serial.begin(9600);
-  saveCoord();
 }
 
 void loop() {
-//  Serial.print(analogRead(buttonPin1));
-//  Serial.print("        ");
-//  Serial.print(analogRead(buttonPin2));
-//  Serial.print("        ");
-//  Serial.print(analogRead(buttonPin3));
-//  Serial.print("        ");
-//  Serial.print(analogRead(buttonPin4));
-//   Serial.print("        ");
-//
-//   
-//    Serial.print(buttonState);
-//  Serial.print("        ");
-//  Serial.print(buttonState2);
-//  Serial.print("        ");
-//  Serial.print(buttonState3);
-//  Serial.print("        ");
-//  Serial.print(buttonState4);
-//   Serial.println("        ");
-
 digitalWrite(11, HIGH);
-
-
-
 Serial.println("welcome to the program");
 Serial.println("what would you like to do?");
 Serial.println("enter 1 for this, 2 for that, or 3 for random inputs");
@@ -155,90 +129,48 @@ switch(incomingSerial)
 
 }
 proceed = 0;
-//////////////////////////////////////////////////////////////////////
-Serial.println("okay, enter what direction youu want to move it");
+//////////////////////////////////////////////////////////////////////Joystick movement
+Serial.println("okay, enter what direction you want to move it");
+//Checks if the selected option was joystick movement
 if (menuItem == 3){
-  while(proceed == 0)
-{
-if(analogRead(buttonPin2) > 1000)
-{
-  
-  movePos(0,100);
+  while(proceed == 0) {
+    //Reads
+    buttonLeft = digitalRead(A0);
+    buttonRight = digitalRead(A1);
+    buttonUp = digitalRead(A2);
+    buttonDown = digitalRead(A3);
+    Serial.print(buttonLeft);
+    Serial.print("     ");
+    Serial.print(buttonRight);
+    Serial.print("     ");
+    Serial.print(buttonUp);
+    Serial.print("     ");
+    Serial.println(buttonDown);
+    if(buttonRight) {movePos(100,0);}
+    if(buttonLeft) {movePos(-100,0);}
+    if(buttonUp) {movePos(0,100);}
+    if(buttonDown) {movePos(0,-100);}
+  }
 }
-
-
-if(analogRead(buttonPin4) > 1000)
-{
-  movePos(-100,0);
-}
-
-if(analogRead(buttonPin3) > 1000)
-{
-  movePos(100,0);
-}
-if(analogRead(buttonPin1) > 1000)
-{
-  movePos(0,-100);
-}
-
-  
-}
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////EEPROM saving and reading
 if (menuItem == 2){
-  while(proceed == 0)
-{
-if(analogRead(buttonPin2) > 1000)
-{
-  
-  movePos(0,100);
+  while(proceed == 0) {
+    Serial.println("Coord saving and reading screen, choose if you want to save or read");
+        
+  }
 }
-
-
-if(analogRead(buttonPin4) > 1000)
-{
-  movePos(-100,0);
-}
-
-if(analogRead(buttonPin3) > 1000)
-{
-  movePos(100,0);
-}
-if(analogRead(buttonPin1) > 1000)
-{
-  movePos(0,-100);
-}
-
-  
-}
-
-}
-///////////////////////////////////////////////////// do demo
+/////////////////////////////////////////////////////Demo code
 if (menuItem == 1){
-  while(proceed == 0)
-{
-if(analogRead(buttonPin2) > 1000)
-{
-  
-  movePos(0,100);
-}
-
-
-if(analogRead(buttonPin4) > 1000)
-{
-  movePos(-100,0);
-}
-
-if(analogRead(buttonPin3) > 1000)
-{
-  movePos(100,0);
-}
-if(analogRead(buttonPin1) > 1000)
-{
-  movePos(0,-100);
-}
-
-  
-}
+  while(proceed == 0) {
+    Serial.println("Welcome to demo mode! The system will demo the laser engraving ability");
+    Serial.println("Press x to go back");
+    delay(100);
+    moveCoord(10,0);
+    moveCoord(0,10);
+    moveCoord(-10,-10);
+    moveCoord(-6,-3);
+    moveCoord(10,20);    
+  }
 
 }
   Serial.println("we proceeded");
