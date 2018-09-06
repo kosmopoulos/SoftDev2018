@@ -1,3 +1,6 @@
+//NOTE: Majority of Serial prints are in for error checking, they are commented out to clean up the UI to make it easier for the user
+//They are also commented out to make the moving of the motors more accurate/faster as printing it all out to the serial monitor (UI) slows the solution
+
 //Defines the function to move the motors
 void movePos(int deltaX, int deltaY) {
   //Prints the change in position
